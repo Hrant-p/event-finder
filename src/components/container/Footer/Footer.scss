@@ -1,0 +1,13 @@
+@import '../Navbar/Navbar.scss';
+
+.footer{
+    width: 100%;
+    height: 90px;
+    background-color: $barColor;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    p{
+        color: whitesmoke;
+    }
+}
