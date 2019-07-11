@@ -1,11 +1,13 @@
 import { constructUrl } from "../API/helpers";
 import { request } from "../services/requestService";
-import { apiConsts } from "../API/API";
+import { apiConsts } from "../API/keys";
 import { all, call, put, takeLatest } from "redux-saga/effects";
+
 import {
   USERS_REDUCER_ACTION_TYPES,
   CERTAIN_USER_REDUCER_ACTION_TYPES
 } from "../store/actions/types";
+
 import {
   changeLoadingStateUsers,
   getAllUsersSucceed
@@ -53,7 +55,7 @@ function* createNewUser({ payload: { newUsers, history } }) {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export function* usersSaga() {
   yield all([

@@ -64,7 +64,7 @@ import { connect } from "react-redux";
            <div className="lds-hourglass" style={{ marginLeft: 0 }} />
          )}
          <div className="input-field">
-           <div>
+           <div className="forms">
              <input
              name="login"
                placeholder="Login"

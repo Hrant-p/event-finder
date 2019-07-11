@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import './Login.scss';
-import {
-  isLoadingUserSelector,
-  allUsersSelector
-} from "../../store/selectors/usersSelector";
-import {
-  getAllUsersRequest
-} from "../../store/actions/userActionCreator";
+import { isLoadingUserSelector, allUsersSelector } from "../../store/selectors/usersSelector";
+import { getAllUsersRequest } from "../../store/actions/userActionCreator";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
@@ -63,7 +58,7 @@ class Login extends Component {
 
     componentDidMount() {
         const { history } = this.props;
-        const {pathname } = history.location
+        const { pathname } = history.location
 
         if (!pathname.includes("login")) {
           history.push("/login");
@@ -96,7 +91,7 @@ class Login extends Component {
               />
             )}
             <div className="input-field">
-              <div>
+              <div className="forms">
                 <input
                   type="email"
                   name="login"

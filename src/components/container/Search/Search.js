@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { eventAPI } from '../../../API/API';
+import { eventAPI } from '../../../API/keys';
 
 class Search extends Component {
     constructor(props){

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
-import { googleAPI } from '../../../API/API';
+import { googleAPI } from '../../../API/keys';
 
 class GoogleMap extends Component {
   
@@ -8,8 +8,7 @@ class GoogleMap extends Component {
     render() {
         const style = {
             width: '100%',
-            height: '500px',
-            position: 'relative'
+            height: '600px',
             };
         // let position = new google.maps.LatLng(41.3060796, -72.9304171);
 

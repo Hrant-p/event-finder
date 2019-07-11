@@ -1,7 +1,7 @@
 import {
   USERS_REDUCER_ACTION_TYPES
-} from "../actions/types";
-import { fromJS } from "immutable";
+} from '../actions/types';
+import { fromJS } from 'immutable';
 
 const initialState = fromJS({
   allUsers: {},

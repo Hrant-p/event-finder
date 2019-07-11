@@ -1,5 +1,3 @@
 import axios from 'axios';
 
-export function request(method, url, data) {
-        return axios({ method, url, data })
-};
+export const request = (method, url, data) => axios({ method, url, data });
