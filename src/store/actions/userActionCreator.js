@@ -12,14 +12,14 @@ export function getAllUsersSucceed(data) {
     type: USERS_REDUCER_ACTION_TYPES.GET_USERS_SUCCEED,
     payload: { data }
   };
-}
+};
 
 export function createNewUserRequest(newUsers, history) {
   return {
     type: CERTAIN_USER_REDUCER_ACTION_TYPES.POST_CERTAIN_USER,
     payload: { newUsers, history }
   };
-}
+};
 
 export function changeLoadingStateUsers(isLoading) {
   return {

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Footer from '../components/container/Footer/Footer';
-import SignUp from '../components/SignUp/SignUp';
-import Login from '../components/Login/Login';
-import Dashboard from '../components/container/Dashboard/Dashboard';
-import Navbar from '../components/container/Navbar/Navbar';
+import Footer from '../components/Footer/Footer';
+import SignUp from '../container/SignUp/SignUp';
+import Login from '../container/Login/Login';
+import Dashboard from '../container/Dashboard/Dashboard';
+import Navbar from '../components/Navbar/Navbar';
 
 function RouterService() {
   return (

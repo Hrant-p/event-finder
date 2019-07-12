@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 import { SEARCH_EVENTS_ACTION_TYPES } from "../actions/types";
 
 const initalState = fromJS({
-    findedEvents: {},
+    findedEvents: [],
     isLoading: false
 });
 

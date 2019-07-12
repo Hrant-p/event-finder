@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { isLoadingEventsSelector, findedEventsSelector } from '../../../store/selectors/eventSelector';
+import { isLoadingEventsSelector, findedEventsSelector } from '../../store/selectors/eventSelector';
 import { bindActionCreators } from 'redux';
-import { searchEvents } from '../../../store/actions/eventActionCreators';
+import { searchEvents } from '../../store/actions/eventActionCreators';
 
 class Search extends Component {
   constructor(props) {
@@ -12,22 +12,16 @@ class Search extends Component {
       name: "",
       location: ""
     };
-  }
-
-  // componentDidMount() {
-
-  // }
+  };
 
   handleSubmit = (name, location, e) => {
     if (e) e.preventDefault();
-
     if (name || location) {
       this.props.eventActionCreator(name, location);
     } else {
-        alert('Search fields are empty, write the search fields!')
-    }
+        alert('Search fields are empty, write the search fields!');
+    };
   };
-
 
   handleChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value });
@@ -61,7 +55,7 @@ class Search extends Component {
         </button>
       </div>
     );
-  }
+  };
 };
 
 const mapStateToProps = state => ({
@@ -75,4 +69,4 @@ const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Search); 
+export default connect(mapStateToProps, mapDispatchToProps)(Search);

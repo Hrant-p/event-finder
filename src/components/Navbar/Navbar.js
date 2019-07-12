@@ -7,7 +7,7 @@ import './Navbar.scss';
 class Navbar extends Component {
   removeId = () => {
     sessionStorage.setItem("id", "")
-  }
+  };
 
   render() {
     const loginPage =
@@ -40,7 +40,7 @@ class Navbar extends Component {
         </ul>
       </div>
     );
-  }
+  };
 };
 
 export default Navbar;

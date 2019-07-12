@@ -39,16 +39,14 @@ function* getSearchEventsResult({ payload: { name, location } }) {
     
   } catch (e) {
         console.log(e);
-        alert('Wrong search! Type only correct addreses!')
+        yield put(changeLoadingStateEvents(false));
+        alert('Wrong search! Type only correct addreses!');
   };
 };
 
-// function* mapLocationData(data) {
-
-// }
-
 export function* eventSaga() {
     yield all([
-        takeLatest(SEARCH_EVENTS_ACTION_TYPES.GET_SEARCH_EVENTS, getSearchEventsResult)
+        takeLatest(SEARCH_EVENTS_ACTION_TYPES.GET_SEARCH_EVENTS,
+             getSearchEventsResult)
     ])
-}
+};

@@ -25,10 +25,12 @@ function* getAllUsers() {
 
     yield put(getAllUsersSucceed(data));
     yield put(changeLoadingStateUsers(false));
+
   } catch (error) {
+    yield put(changeLoadingStateUsers(false));
     console.log(error);
-  }
-}
+  };
+};
 
 function* createNewUser({ payload: { newUsers, history } }) {
   try {
@@ -46,7 +48,7 @@ function* createNewUser({ payload: { newUsers, history } }) {
     history.push("/dashboard")
   } catch (error) {
     console.log(error);
-  }
+  };
 };
 
 export function* usersSaga() {
@@ -56,4 +58,4 @@ export function* usersSaga() {
       createNewUser
     )
   ]);
-}
+};
