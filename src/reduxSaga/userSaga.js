@@ -30,14 +30,6 @@ function* getAllUsers() {
   }
 }
 
-//             `https://www.eventbriteapi.com/v3/events/search/?q=${text}&token=${PRIVATE_API_KEY}&expand=venue&page=${page}`;
-
-// es taki object@ constructUrl-i erkrord argumentna
-// {
-// q: text,
-// token
-// }
-
 function* createNewUser({ payload: { newUsers, history } }) {
   try {
     yield put(changeLoadingStateUsers(true));
@@ -60,8 +52,7 @@ function* createNewUser({ payload: { newUsers, history } }) {
 export function* usersSaga() {
   yield all([
     takeLatest(USERS_REDUCER_ACTION_TYPES.GET_USERS, getAllUsers),
-    takeLatest(
-      CERTAIN_USER_REDUCER_ACTION_TYPES.POST_CERTAIN_USER,
+    takeLatest(CERTAIN_USER_REDUCER_ACTION_TYPES.POST_CERTAIN_USER,
       createNewUser
     )
   ]);
