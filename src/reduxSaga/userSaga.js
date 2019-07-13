@@ -47,7 +47,8 @@ function* createNewUser({ payload: { newUsers, history } }) {
 
     history.push("/dashboard")
   } catch (error) {
-    console.log(error);
+    console.warn(error);
+    yield put(changeLoadingStateUsers(false));
   };
 };
 
@@ -55,7 +56,6 @@ export function* usersSaga() {
   yield all([
     takeLatest(USERS_REDUCER_ACTION_TYPES.GET_USERS, getAllUsers),
     takeLatest(CERTAIN_USER_REDUCER_ACTION_TYPES.POST_CERTAIN_USER,
-      createNewUser
-    )
+      createNewUser)
   ]);
 };

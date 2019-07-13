@@ -1,7 +1,7 @@
 import React from 'react';
 import './Footer.scss';
 
-const Footer = () => {
+function Footer() {
     return (
           <div className="footer">
             <p>Copyright © 2019 Event Finder</p>

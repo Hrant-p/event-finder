@@ -9,6 +9,7 @@ function App() {
         <Route component={RouterService} />
       </BrowserRouter>
     );
-}
+};
 
 export default App
+

@@ -18,6 +18,6 @@ function RouterService() {
       <Footer />
     </React.Fragment>
   );
-}
+};
 
 export default RouterService;

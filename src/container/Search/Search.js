@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { isLoadingEventsSelector, findedEventsSelector } from '../../store/selectors/eventSelector';
 import { bindActionCreators } from 'redux';
 import { searchEvents } from '../../store/actions/eventActionCreators';
+import './Search.scss'
 
 class Search extends Component {
   constructor(props) {
@@ -31,28 +32,28 @@ class Search extends Component {
     const { name, location } = this.state;
 
     return (
-      <div>
-        <h2>Find Your Events</h2>
-        <input
-          type="search"
-          placeholder="Type the events name to search"
-          name="name"
-          value={this.state.query}
-          onChange={this.handleChange}
-        />
-        <input
-          type="search"
-          placeholder="Type the events loacations to search"
-          name="location"
-          value={this.state.location}
-          onChange={this.handleChange}
-        />
-        <button
-          type="button"
-          onClick={e => this.handleSubmit(name, location, e)}
-        >
-          Search
-        </button>
+        <div className="search-area">
+            <h3>Search Events Around The World</h3>
+                <input
+                  type="search"
+                  placeholder="Type the events name"
+                  name="name"
+                  value={this.state.query}
+                  onChange={this.handleChange}
+                    />
+                <input
+                  type="search"
+                  placeholder="Type the events loacations"
+                  name="location"
+                  value={this.state.location}
+                  onChange={this.handleChange}
+                />
+            <button
+              type="button"
+              onClick={e => this.handleSubmit(name, location, e)}
+            >
+              Search
+            </button>
       </div>
     );
   };

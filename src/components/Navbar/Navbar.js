@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import './Navbar.scss';
@@ -10,6 +10,7 @@ class Navbar extends Component {
   };
 
   render() {
+
     const loginPage =
       window.location.pathname.includes("login") ||
       window.location.pathname.includes("registration") ||
@@ -26,7 +27,7 @@ class Navbar extends Component {
             </li>
           </ul>
         )}
-        <ul className="nav-list-2">
+        {loginPage  && (<ul className="nav-list-2">
           <li>
             <Link to="/registration" className="nav-item">
               Sign Up
@@ -37,7 +38,7 @@ class Navbar extends Component {
               Login
             </Link>
           </li>
-        </ul>
+        </ul>)}
       </div>
     );
   };

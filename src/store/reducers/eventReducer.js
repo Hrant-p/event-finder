@@ -16,3 +16,4 @@ export default (state = initalState, {type, payload}) => {
             return state;
     };
 }
+

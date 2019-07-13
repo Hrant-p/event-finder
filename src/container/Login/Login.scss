@@ -3,14 +3,12 @@
 .toolTip {
     position: absolute;
     z-index: 2;
+    top: 10px;
     margin-top: 15%;
-    left: 35%;
-    width: 30%;
     height: fit-content;
-    background-color: yellowgreen;
+    background-color: #216885;
     font-size: 40px;
     display: flex;
-    line-height: 150px;
     text-align: center;
     justify-content: center;
     border-radius: 10px;
@@ -23,7 +21,7 @@
     margin-left: 45%;
     width: 64px;
     height: 64px;
-    z-index: 3
+    z-index: 9;
 }
 
 .lds-hourglass:after {
@@ -35,7 +33,7 @@
     margin: 6px;
     box-sizing: border-box;
     border: 80px solid black;
-    border-color: black transparent black transparent;
+    border-color: #000e27 transparent #280c38 transparent;
     animation: lds-hourglass 1.2s infinite;
 }
 

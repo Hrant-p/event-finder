@@ -17,7 +17,7 @@ import { connect } from "react-redux";
        login: "",
        password: ""
      };
-   }
+   };
 
    onChange = ({ currentTarget: { value, name } }) => {
      this.setState({
@@ -47,7 +47,7 @@ import { connect } from "react-redux";
             
             createNewUserRequest(newUser, history);
 }
-   }
+   };
 
    render() {
     const { isLoading } = this.props;
@@ -90,7 +90,7 @@ import { connect } from "react-redux";
          )}
        </div>
      );
-   }
+   };
  };
 
 const mapStateToProps = state => ({
@@ -109,4 +109,4 @@ const mapDispatchToProps = dispatch =>
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SignUp)
+)(SignUp);

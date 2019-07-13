@@ -3,6 +3,7 @@ import { Map, Marker, GoogleApiWrapper, InfoWindow } from 'google-maps-react';
 import { googleAPI } from '../../API/keys';
 import { connect } from 'react-redux';
 import { findedEventsSelector, isLoadingEventsSelector } from '../../store/selectors/eventSelector';
+import './GoogleMap.scss';
 
 class GoogleMap extends Component {
     constructor(props) {
@@ -41,10 +42,15 @@ class GoogleMap extends Component {
         const { isLoading, findedEvents } = this.props;
 
         return (
-            <div>
+            <div className="map-component">
                 <Map
+                    className="map-field"
                     google={this.props.google}
-                    style={{ width: "90%", height: "600px" }}
+                    style={{
+                        position: 'unset',
+                        height: '500px',
+                        margin: '0 auto'
+                    }}
                     center={{
                         lat: findedEvents.getIn([
                             0, "location", "lat"

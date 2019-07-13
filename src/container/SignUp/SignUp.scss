@@ -1,14 +1,10 @@
 .signup-page{
     margin: 0;
-    background-image: url(../../img/background.jpg);
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: cover;
     display: flex;
     justify-content: center;
     align-items: center;
     .input-field{
-        margin-top: 100px;
+        margin: 30px;
         width: 450px;
         height: auto;
         display: flex;
@@ -52,4 +48,5 @@
         }
     } 
 }
+
 

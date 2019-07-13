@@ -5,3 +5,4 @@ export const constructUrl = (arr, queryObj) => {
 
   return arr.join("/") + (queryString ? `?${queryString}` : "");
 };
+

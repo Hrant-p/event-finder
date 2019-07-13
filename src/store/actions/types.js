@@ -15,3 +15,4 @@ export const SEARCH_EVENTS_ACTION_TYPES = {
     LOADING_STATE: 'LOADING_STATE'
 };
 
+

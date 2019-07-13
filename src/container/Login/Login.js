@@ -70,8 +70,8 @@ class Login extends Component {
           const { getAllUsersRequestActionCreator } = this.props;
 
           getAllUsersRequestActionCreator();
-        }
-    }
+        };
+    };
 
     render() {
         const { isLoading } = this.props;
@@ -83,45 +83,48 @@ class Login extends Component {
         } = this.state;
         
         return (
-          <div className="signup-page">
-            {isLoading && (
-              <div
-                className="lds-hourglass"
-                style={{ marginLeft: 0 }}
-              />
-            )}
-            <div className="input-field">
-              <div className="forms">
-                <input
-                  type="email"
-                  name="login"
-                  placeholder="Login"
-                  value={login}
-                  required
-                  onChange={this.onChange}
-                />
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  value={password}
-                  required
-                  onChange={this.onChange}
-                />
-                <button
-                  type="submit"
-                  onClick={() => this.handleLogin(login, password)}
-                >
-                  Login
-                </button>
+            <React.Fragment>
+              <h2 style={{'text-align': 'center', color: '#44469'}}>Events Search Application</h2>
+              <div className="signup-page">
+                {isLoading && (
+                  <div
+                    className="lds-hourglass"
+                    style={{ marginLeft: 0 }}
+                  />
+                )}
+                <div className="input-field">
+                  <div className="forms">
+                    <input
+                      type="email"
+                      name="login"
+                      placeholder="Login"
+                      value={login}
+                      required
+                      onChange={this.onChange}
+                    />
+                    <input
+                      type="password"
+                      name="password"
+                      placeholder="Password"
+                      value={password}
+                      required
+                      onChange={this.onChange}
+                    />
+                    <button
+                      type="submit"
+                      onClick={() => this.handleLogin(login, password)}
+                    >
+                      Login
+                    </button>
+                  </div>
+                </div>
+                {statusOfToolTip && (
+                  <div className="toolTip">{textForToolTip}</div>
+                )}
               </div>
-            </div>
-            {statusOfToolTip && (
-              <div className="toolTip">{textForToolTip}</div>
-            )}
-          </div>
+            </React.Fragment>
         );
-    }
+    };
 };
 
 const mapStateToProps = state => ({
