@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 class Login extends Component {
     constructor(props) {
         super(props)
-    
+
         this.state = {
           login: "",
           password: "",
@@ -16,7 +16,7 @@ class Login extends Component {
           textForToolTip: ""
         };
     };
-    
+
     onChange = ({currentTarget: {value, name} }) => {
         this.setState({
           [name]: value
@@ -26,7 +26,7 @@ class Login extends Component {
     handleLogin = () => {
         const { login, password } = this.state;
         const { allUsers } = this.props;
-    
+
         if (
           login &&
           password &&
@@ -81,10 +81,10 @@ class Login extends Component {
           statusOfToolTip,
           textForToolTip
         } = this.state;
-        
+
         return (
             <React.Fragment>
-              <h2 style={{'text-align': 'center', color: '#44469'}}>Events Search Application</h2>
+              <h2 style={{'textAlign': 'center', color: '#44469'}}>Events Search Application</h2>
               <div className="signup-page">
                 {isLoading && (
                   <div

@@ -1,27 +1,26 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React  from 'react';
+import {Link, useLocation} from 'react-router-dom';
 
 import './Navbar.scss';
 
 
-class Navbar extends Component {
-  removeId = () => {
+const Navbar = () => {
+  const removeId = () => {
     sessionStorage.setItem("id", "")
   };
 
-  render() {
-
-    const loginPage =
-      window.location.pathname.includes("login") ||
-      window.location.pathname.includes("registration") ||
-      window.location.pathname === "/";
+  const { pathname } = useLocation();
+  const loginPage =
+    pathname.includes("login") ||
+    pathname.includes("registration") ||
+    pathname === "/";
 
     return (
       <div className="navbar">
         {!loginPage && (
           <ul className="nav-list-1">
             <li>
-              <Link to="/" className="nav-item" onClick={this.removeId}>
+              <Link to="/" className="nav-item" onClick={removeId}>
                 Log Out
               </Link>
             </li>
@@ -41,7 +40,6 @@ class Navbar extends Component {
         </ul>)}
       </div>
     );
-  };
 };
 
 export default Navbar;
