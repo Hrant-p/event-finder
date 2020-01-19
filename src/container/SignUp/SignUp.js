@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './SignUp.scss';
 import { fromJS } from "immutable";
 import {
@@ -8,55 +8,45 @@ import {
 import { createNewUserRequest } from "../../store/actions/userActionCreator";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import {useHistory} from "react-router";
 
- class SignUp extends Component {
-   constructor(props) {
-     super(props);
+ const SignUp = ({createNewUserRequest, allUsers, isLoading}) => {
 
-     this.state = {
+    const [ statusOfToolTip, setStatusOfToolTip ] = useState(false);
+    const [ textForToolTip, setTextForToolTip ] = useState('');
+     const [ formData, setFormData ] = useState({
        login: "",
        password: ""
-     };
-   };
+     });
+     const { login, password } = formData;
+     const history  = useHistory();
 
-   onChange = ({ currentTarget: { value, name } }) => {
-     this.setState({
+     const onChange = ({ currentTarget: { value, name } }) => {
+     setFormData({ ...formData,
        [name]: value
      });
    };
 
-   handleClick = () => {
-        const { createNewUserRequest, allUsers } = this.props;
-        const { login, password } = this.state;
-        const newUser = allUsers.set(login, fromJS({login, password}));
-
-        if (allUsers.has(login) && (login.length < 1 || password.length < 1)) {
-        this.setState({
-            statusOfToolTip: true,
-            textForToolTip: "This userName is already used"
-        });
-
-        setTimeout(() => {
-            this.setState({
-            statusOfToolTip: false,
-            textForToolTip: ""
-            });
-        }, 3000);
+   const handleClick = () => {
+        if (allUsers.has(login)) {
+            setStatusOfToolTip(true);
+            setTextForToolTip("This userName is already used");
+            setTimeout(() => {
+                setStatusOfToolTip(false);
+                setTextForToolTip("");
+                }, 3000);
+        } else if (login.length < 1 || password.length < 1) {
+            setStatusOfToolTip(true);
+            setTextForToolTip("Please type correct mail & password");
+            setTimeout(() => {
+                setStatusOfToolTip(false);
+                setTextForToolTip("");
+            }, 3000);
         } else {
-            const { history } = this.props;
-            
+            const newUser = allUsers.set(login, fromJS({login, password}));
             createNewUserRequest(newUser, history);
-}
+        }
    };
-
-   render() {
-    const { isLoading } = this.props;
-     const {
-       login,
-       password,
-       statusOfToolTip,
-       textForToolTip
-     } = this.state;
 
      return (
        <div className="signup-page">
@@ -70,7 +60,7 @@ import { connect } from "react-redux";
                placeholder="Login"
                value={login}
                required
-               onChange={this.onChange}
+               onChange={e => onChange(e)}
              />
              <input
                type="password"
@@ -78,9 +68,12 @@ import { connect } from "react-redux";
                placeholder="Password"
                value={password}
                required
-               onChange={this.onChange}
+               onChange={e => onChange(e)}
              />
-             <button type="submit" onClick={this.handleClick}>
+             <button
+                 type="submit"
+                 onClick={handleClick}
+             >
                Sign Up
              </button>
            </div>
@@ -90,7 +83,6 @@ import { connect } from "react-redux";
          )}
        </div>
      );
-   };
  };
 
 const mapStateToProps = state => ({

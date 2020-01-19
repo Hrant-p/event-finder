@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import './Login.scss';
 import { isLoadingUserSelector, allUsersSelector } from "../../store/selectors/usersSelector";
 import { getAllUsersRequest } from "../../store/actions/userActionCreator";
@@ -70,7 +70,7 @@ class Login extends Component {
           const { getAllUsersRequestActionCreator } = this.props;
 
           getAllUsersRequestActionCreator();
-        };
+        }
     };
 
     render() {
@@ -83,7 +83,7 @@ class Login extends Component {
         } = this.state;
 
         return (
-            <React.Fragment>
+            <Fragment>
               <h2 style={{'textAlign': 'center', color: '#44469'}}>Events Search Application</h2>
               <div className="signup-page">
                 {isLoading && (
@@ -122,7 +122,7 @@ class Login extends Component {
                   <div className="toolTip">{textForToolTip}</div>
                 )}
               </div>
-            </React.Fragment>
+            </Fragment>
         );
     };
 };

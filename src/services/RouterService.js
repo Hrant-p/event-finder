@@ -8,7 +8,7 @@ import Navbar from '../components/Navbar/Navbar';
 
 function RouterService() {
   return (
-    <React.Fragment>
+    <>
       <Navbar />
       <Switch>
         <Route path="/registration" component={SignUp} exact />
@@ -16,8 +16,8 @@ function RouterService() {
         <Route path="/dashboard" component={Dashboard} exact />
       </Switch>
       <Footer />
-    </React.Fragment>
+    </>
   );
-};
+}
 
 export default RouterService;

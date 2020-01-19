@@ -4,6 +4,5 @@ import eventReducer from './eventReducer';
 
 export default combineReducers({
   userReducer,
-  eventReducer
+  eventReducer,
 });
-

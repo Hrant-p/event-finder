@@ -1,9 +1,9 @@
 import { all, call } from 'redux-saga/effects';
 import { usersSaga } from "../../reduxSaga/userSaga";
-import { eventSaga } from '../../reduxSaga/eventSaga';
+import eventSaga from '../../reduxSaga/eventSaga';
 
 export default function* middleware () {
-    yield all([ 
+    yield all([
             call(usersSaga),
             call(eventSaga)
         ])
