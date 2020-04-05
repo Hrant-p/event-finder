@@ -15,7 +15,13 @@ export const googleAPI = {
 };
 
 export const apiConsts = {
-    urlForData: "https://api.myjson.com/bins/",
+    urlForData: "https://api.myjson.com/bins",
+    urlForEvent: "https://www.eventbriteapi.com/v3/events/search/",
+    id: "6n9zf"
+};
+
+export const apiConsts = {
+    urlForData: "https://api.myjson.com/bins",
     urlForEvent: "https://www.eventbriteapi.com/v3/events/search/",
     id: "6n9zf"
 };
