@@ -1,14 +1,13 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import RouterService from "./services/RouterService"
+import RouterService from './services/RouterService';
 
 function App() {
-    return (
+  return (
       <BrowserRouter>
         <Route component={RouterService} />
       </BrowserRouter>
-    );
-};
+  );
+}
 
-export default App
-
+export default App;

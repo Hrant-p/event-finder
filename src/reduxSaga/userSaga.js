@@ -5,57 +5,65 @@ import { all, call, put, takeLatest } from "redux-saga/effects";
 
 import {
   USERS_REDUCER_ACTION_TYPES,
-  CERTAIN_USER_REDUCER_ACTION_TYPES
 } from "../store/actions/types";
 
 import {
+  changeIsAuthState,
   changeLoadingStateUsers,
-  getAllUsersSucceed
+  setCurrentUser,
 } from "../store/actions/userActionCreator";
 
-function* getAllUsers() {
+import {app} from "../API/firebase";
+
+function* loginCurrentUser({ payload: { login, password, history }}) {
   try {
     yield put(changeLoadingStateUsers(true));
-
-    const { data } = yield call(
-      request,
-      "GET",
-      constructUrl([apiConsts.urlForData, apiConsts.id], {})
-    );
-
-    yield put(getAllUsersSucceed(data));
+    const auth = yield app.auth();
+    yield call(auth.signInWithEmailAndPassword, login, password);
+    yield put(changeIsAuthState(true));
+    yield history.push('/dashboard');
     yield put(changeLoadingStateUsers(false));
 
   } catch (error) {
+    yield put(changeIsAuthState(false));
     yield put(changeLoadingStateUsers(false));
-    console.log(error);
-  };
-};
+    console.error(error);
+  }
+}
 
-function* createNewUser({ payload: { newUsers, history } }) {
+function* registerNewUser({ payload: { login, password, history } }) {
   try {
     yield put(changeLoadingStateUsers(true));
-
-    yield call(
-      request,
-      "PUT",
-      constructUrl([apiConsts.urlForData, apiConsts.id], {}),
-      newUsers
-    );
-
+    const { createUserWithEmailAndPassword } = yield app.auth();
+    yield call(createUserWithEmailAndPassword, login, password);
+    yield put(changeIsAuthState(true));
+    yield history.push('/dashboard');
     yield put(changeLoadingStateUsers(false));
 
-    history.push("/dashboard")
   } catch (error) {
-    console.warn(error);
+    yield put(changeIsAuthState(false));
     yield put(changeLoadingStateUsers(false));
-  };
-};
+    console.error(error);
+  }
+}
+
+function* userLoginSucceed({ payload: { user }}) {
+  try {
+    yield put(changeLoadingStateUsers(true));
+    yield put(setCurrentUser(user));
+    yield put(changeLoadingStateUsers(false));
+
+  } catch (e) {
+    yield put(changeIsAuthState(false));
+    yield put(changeLoadingStateUsers(false));
+    console.error(error);
+  }
+}
 
 export function* usersSaga() {
   yield all([
-    takeLatest(USERS_REDUCER_ACTION_TYPES.GET_USERS, getAllUsers),
-    takeLatest(CERTAIN_USER_REDUCER_ACTION_TYPES.POST_CERTAIN_USER,
-      createNewUser)
+    takeLatest(USERS_REDUCER_ACTION_TYPES.LOGIN_CURRENT_USER, loginCurrentUser),
+    takeLatest(USERS_REDUCER_ACTION_TYPES.REGISTER_NEW_USER, registerNewUser),
+    takeLatest(USERS_REDUCER_ACTION_TYPES.LOGIN_USER_SUCCEED, userLoginSucceed),
   ]);
-};
+}

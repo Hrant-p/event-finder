@@ -1,146 +1,124 @@
 import React, { Component, Fragment } from 'react';
 import './Login.scss';
-import { isLoadingUserSelector, allUsersSelector } from "../../store/selectors/usersSelector";
-import { getAllUsersRequest } from "../../store/actions/userActionCreator";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
+import { isLoadingUserSelector, allUsersSelector } from '../../store/selectors/usersSelector';
+import { getAllUsersRequest } from '../../store/actions/userActionCreator';
+import { app } from '../../API/firebase';
 
 class Login extends Component {
-    constructor(props) {
-        super(props)
+  constructor(props) {
+    super(props);
 
-        this.state = {
-          login: "",
-          password: "",
-          statusOfToolTip: false,
-          textForToolTip: ""
-        };
+    this.state = {
+      login: '',
+      password: '',
+      statusOfToolTip: false,
+      textForToolTip: '',
+    };
+  }
+
+    onChange = ({ currentTarget: { value, name } }) => {
+      this.setState({
+        [name]: value,
+      });
     };
 
-    onChange = ({currentTarget: {value, name} }) => {
-        this.setState({
-          [name]: value
-        });
+    handleLogin = async e => {
+      e.preventDefault();
+      const { login, password } = this.state;
+      const { history } = this.props;
+
+
+    //   } else {
+    //     this.setState({
+    //       statusOfToolTip: true,
+    //       textForToolTip: 'Login or Password is incorrect',
+    //     });
+    //
+    //     setTimeout(() => {
+    //       this.setState({
+    //         statusOfToolTip: false,
+    //         textForToolTip: '',
+    //       });
+    //     }, 3000);
+    //   }
     };
-
-    handleLogin = () => {
-        const { login, password } = this.state;
-        const { allUsers } = this.props;
-
-        if (
-          login &&
-          password &&
-          allUsers.has(login) &&
-          allUsers.getIn([login, "password"]) === password
-        ) {
-            const { history } = this.props;
-            sessionStorage.setItem(
-              "id",
-              allUsers.getIn([login, "login"])
-            );
-
-            history.push("/dashboard");
-
-        } else {
-          this.setState({
-            statusOfToolTip: true,
-            textForToolTip: "Login or Password is incorrect"
-          });
-
-          setTimeout(() => {
-            this.setState({
-              statusOfToolTip: false,
-              textForToolTip: ""
-            });
-          }, 3000);
-        }
-    }
 
     componentDidMount() {
-        const { history } = this.props;
-        const { pathname } = history.location
-
-        if (!pathname.includes("login")) {
-          history.push("/login");
-        }
-
-        if (sessionStorage.id && sessionStorage.id !== "") {
-          history.push("/dashboard");
-        } else {
-          const { getAllUsersRequestActionCreator } = this.props;
-
-          getAllUsersRequestActionCreator();
-        }
-    };
+      const { history } = this.props;
+      if (sessionStorage.id && sessionStorage.id !== '') {
+        history.push('/dashboard');
+      }
+    }
 
     render() {
-        const { isLoading } = this.props;
-        const {
-          login,
-          password,
-          statusOfToolTip,
-          textForToolTip
-        } = this.state;
+      const { isLoading } = this.props;
+      const {
+        login,
+        password,
+        statusOfToolTip,
+        textForToolTip,
+      } = this.state;
 
-        return (
-            <Fragment>
-              <h2 style={{'textAlign': 'center', color: '#44469'}}>Events Search Application</h2>
-              <div className="signup-page">
-                {isLoading && (
-                  <div
-                    className="lds-hourglass"
-                    style={{ marginLeft: 0 }}
+      // if (currentUser) {
+      //   return <Redirect to="/dashboard" />;
+      // }
+
+      return (
+        <>
+          <h2 style={{ textAlign: 'center', color: '#44469' }}>Events Search Application</h2>
+          <div className="signup-page">
+            {isLoading && (
+            <div
+              className="lds-hourglass"
+              style={{ marginLeft: 0 }}
+            />
+            )}
+            <div className="input-field">
+              <div className="forms">
+                <form onSubmit={this.handleLogin}>
+                  <input
+                    type="email"
+                    name="login"
+                    placeholder="Login"
+                    value={login}
+                    required
+                    onChange={this.onChange}
                   />
-                )}
-                <div className="input-field">
-                  <div className="forms">
-                    <input
-                      type="email"
-                      name="login"
-                      placeholder="Login"
-                      value={login}
-                      required
-                      onChange={this.onChange}
-                    />
-                    <input
-                      type="password"
-                      name="password"
-                      placeholder="Password"
-                      value={password}
-                      required
-                      onChange={this.onChange}
-                    />
-                    <button
-                      type="submit"
-                      onClick={() => this.handleLogin(login, password)}
-                    >
-                      Login
-                    </button>
-                  </div>
-                </div>
-                {statusOfToolTip && (
-                  <div className="toolTip">{textForToolTip}</div>
-                )}
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    value={password}
+                    required
+                    onChange={this.onChange}
+                  />
+                  <button
+                    type="submit"
+                    onClick={this.handleLogin}
+                  >
+                        Login
+                  </button>
+                </form>
               </div>
-            </Fragment>
-        );
-    };
-};
+            </div>
+            {statusOfToolTip && (
+            <div className="toolTip">{textForToolTip}</div>
+            )}
+          </div>
+        </>
+      );
+    }
+}
 
 const mapStateToProps = state => ({
   isLoading: isLoadingUserSelector(state),
-  allUsers: allUsersSelector(state)
 });
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      getAllUsersRequestActionCreator: getAllUsersRequest
-    },
-    dispatch
-  );
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null,
 )(Login);
