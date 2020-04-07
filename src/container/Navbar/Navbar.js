@@ -3,13 +3,12 @@ import {Link, useLocation} from 'react-router-dom';
 
 import './Navbar.scss';
 import {app} from "../../API/firebase";
+import {logOut} from "../../store/actions/userActionCreator";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 
 
-const Navbar = () => {
-  const removeId = () => {
-    app.auth().signOut();
-    sessionStorage.setItem("user", "")
-  };
+const Navbar = ({ logOutAction }) => {
 
   const { pathname } = useLocation();
   const loginPage =
@@ -22,9 +21,16 @@ const Navbar = () => {
         {!loginPage && (
           <ul className="nav-list-1">
             <li>
-              <Link to="/" className="nav-item" onClick={removeId}>
+              <a
+                  href="#"
+                  className="nav-item"
+                  onClick={e => {
+                    e.preventDefault();
+                    logOutAction()
+                  }}
+              >
                 Log Out
-              </Link>
+              </a>
             </li>
           </ul>
         )}
@@ -44,4 +50,8 @@ const Navbar = () => {
     );
 };
 
-export default Navbar;
+const mapDispatchToProps = dispatch => bindActionCreators({
+  logOutAction: logOut
+}, dispatch);
+
+export default connect(null, mapDispatchToProps)(Navbar);

@@ -1,17 +1,15 @@
 import React, { useCallback, useState } from 'react';
 import './SignUp.scss';
-import { fromJS } from 'immutable';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router';
-import { app } from '../../API/firebase';
+import {Redirect, useHistory} from 'react-router';
 import { createNewUserRequest } from '../../store/actions/userActionCreator';
 import {
   isLoadingUserSelector,
   userSelector,
 } from '../../store/selectors/usersSelector';
 
-const SignUp = ({ createNewUserRequest, allUsers, isLoading }) => {
+const SignUp = ({ registerAction, user, isLoading }) => {
   // const [statusOfToolTip, setStatusOfToolTip] = useState(false);
   // const [textForToolTip, setTextForToolTip] = useState('');
   const [formData, setFormData] = useState({
@@ -20,7 +18,6 @@ const SignUp = ({ createNewUserRequest, allUsers, isLoading }) => {
   });
   const { login, password } = formData;
   const history = useHistory();
-  console.log(formData);
 
   const onChange = ({ target: { value, name } }) => {
     setFormData({
@@ -29,11 +26,10 @@ const SignUp = ({ createNewUserRequest, allUsers, isLoading }) => {
     });
   };
 
-  const handleSignUp = useCallback(e => {
+  const handleSignUp = e => {
     e.preventDefault();
     const { login, password } = formData;
-    const { registerAction } = this.props;
-    registerAction(login, password, history);
+    registerAction(login, password);
 
     // if (allUsers.has(login)) {
     //   setStatusOfToolTip(true);
@@ -53,7 +49,11 @@ const SignUp = ({ createNewUserRequest, allUsers, isLoading }) => {
     //   const newUser = allUsers.set(login, fromJS({ login, password }));
     //   createNewUserRequest(newUser, history);
     // }
-  }, [history]);
+  };
+
+  if (user) {
+    return <Redirect to="/dashboard" />
+  }
 
   return (
     <div className="signup-page">
@@ -64,11 +64,12 @@ const SignUp = ({ createNewUserRequest, allUsers, isLoading }) => {
         <div className="forms">
           <form onSubmit={handleSignUp}>
             <input
+              type="email"
               name="login"
               placeholder="Login"
               value={login}
-              onChange={onChange}
-              minLength={5}
+              onChange={e => onChange(e)}
+              minLength={6}
               required
             />
             <input
@@ -76,8 +77,8 @@ const SignUp = ({ createNewUserRequest, allUsers, isLoading }) => {
               name="password"
               placeholder="Password"
               value={password}
-              onChange={onChange}
-              minLength={5}
+              onChange={e => onChange(e)}
+              minLength={6}
               required
             />
             <button
@@ -101,9 +102,9 @@ const mapStateToProps = state => ({
   user: userSelector(state),
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(
-  {registerAction: createNewUserRequest},
-  dispatch
+const mapDispatchToProps = dispatch => bindActionCreators({
+      registerAction: createNewUserRequest
+    }, dispatch
 );
 
 export default connect(

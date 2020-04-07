@@ -4,7 +4,7 @@ import Footer from '../components/Footer/Footer';
 import SignUp from '../container/SignUp/SignUp';
 import Login from '../container/Login/Login';
 import Dashboard from '../container/Dashboard/Dashboard';
-import Navbar from '../components/Navbar/Navbar';
+import Navbar from '../container/Navbar/Navbar';
 import PrivateRoute from './PrivateRoute';
 
 function RouterService() {

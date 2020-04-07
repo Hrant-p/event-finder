@@ -9,6 +9,13 @@ export function loginUser(login, password) {
   }
 }
 
+export function logOut() {
+  return {
+    type: USERS_REDUCER_ACTION_TYPES.LOGOUT_USER,
+    payload: {}
+  }
+}
+
 export function setCurrentUser(user) {
   return {
     type: USERS_REDUCER_ACTION_TYPES.SET_USER_SUCCEED,

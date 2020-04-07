@@ -1,10 +1,10 @@
-import firebase from 'firebase/app';
+import * as firebase from 'firebase/app';
 
 import 'firebase/analytics';
 import 'firebase/firestore';
 import 'firebase/auth';
 
-const app = firebase.initializeApp({
+export const app = firebase.initializeApp({
   apiKey: process.env.FIREBASE_KEY,
   authDomain: process.env.FIREBASE_DOMAIN,
   databaseURL: process.env.FIREBASE_DATABASE,
@@ -16,6 +16,3 @@ const app = firebase.initializeApp({
 });
 
 firebase.analytics();
-
-console.log(app);
-

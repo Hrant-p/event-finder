@@ -9,7 +9,6 @@ import {
   userSelector
 } from '../../store/selectors/usersSelector';
 import { loginUser } from "../../store/actions/userActionCreator";
-import {app} from "../../API/firebase";
 
 class Login extends Component {
   constructor(props) {
@@ -73,7 +72,6 @@ class Login extends Component {
       return (
         <Fragment>
           <h2 style={{ textAlign: 'center', color: '#44469' }}>Events Search Application</h2>
-          <button onClick={() => app.auth().signOut()}>signout</button>
           <div className="signup-page">
             {isLoading && (
             <div
