@@ -1,5 +1,5 @@
 import { all, call, put, takeLatest, take, cancelled, delay } from "redux-saga/effects";
-import {eventChannel} from 'redux-saga';
+import { eventChannel } from 'redux-saga';
 
 import {
   USERS_REDUCER_ACTION_TYPES,
@@ -11,11 +11,13 @@ import {
   setCurrentUser,
 } from "../store/actions/userActionCreator";
 
-import {app} from "../API/firebase";
+import { app } from "../API/firebase";
 
 function getAuthChannel() {
   return eventChannel(emit => {
-    return app.auth().onAuthStateChanged(user => emit({ user }));
+    return app.auth().onAuthStateChanged(user => emit({
+      user
+    }));
   });
 }
 
@@ -40,7 +42,6 @@ function* logOutUser() {
   } catch (e) {
     yield put(changeLoadingStateUsers(false));
     yield put(errorState(e));
-    console.error(e);
   } finally {
     yield delay(4000);
     yield put(errorState(null));
@@ -58,20 +59,20 @@ function* loginCurrentUser({ payload: { login, password }}) {
 
   } catch (error) {
     yield put(changeLoadingStateUsers(false));
-    console.log(error);
     yield put(errorState(error));
-    console.error(error);
   } finally {
     yield delay(4000);
     yield put(errorState(null));
   }
 }
 
-function* registerNewUser({ payload: { login, password } }) {
+function* registerNewUser({ payload: { login, password, password2 } }) {
   try {
+    if (password !== password2) {
+      throw new Error("Passwords doesn't match");
+    }
     yield put(changeLoadingStateUsers(true));
     const auth = yield app.auth();
-    console.log(login, password);
     yield auth.createUserWithEmailAndPassword(login.trim(), password.trim());
     const token = yield auth.currentUser.getIdToken();
     localStorage.setItem('id', token);
@@ -79,8 +80,7 @@ function* registerNewUser({ payload: { login, password } }) {
 
   } catch (error) {
     yield put(changeLoadingStateUsers(false));
-    yield put(errorState(e));
-    console.error(e);
+    yield put(errorState(error));
   } finally {
     yield delay(4000);
     yield put(errorState(null));

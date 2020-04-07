@@ -2,6 +2,7 @@ import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import {connect} from "react-redux";
 import { userSelector } from "../store/selectors/usersSelector";
+import Immutable from 'immutable'
 import { PropTypes } from 'prop-types'
 
 const PrivateRoute = ({component: RouteComponent, user, ...rest }) => {

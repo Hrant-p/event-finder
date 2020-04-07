@@ -1,5 +1,6 @@
 import React  from 'react';
 import {Link, useLocation} from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import './Navbar.scss';
 import {logOut} from "../../store/actions/userActionCreator";
@@ -21,30 +22,33 @@ const Navbar = ({ logOutAction }) => {
           <ul className="nav-list-1">
             <li>
               <a
-                  href="#"
-                  className="nav-item"
-                  onClick={e => {
-                    e.preventDefault();
-                    logOutAction()
-                  }}
+                href="#"
+                className="nav-item"
+                rel="noreferrer noopener"
+                onClick={e => {
+                  e.preventDefault();
+                  logOutAction()
+                }}
               >
                 Log Out
               </a>
             </li>
           </ul>
         )}
-        {loginPage  && (<ul className="nav-list-2">
-          <li>
-            <Link to="/registration" className="nav-item">
-              Sign Up
-            </Link>
-          </li>
-          <li>
-            <Link to="/login" className="nav-item">
-              Login
-            </Link>
-          </li>
-        </ul>)}
+        {loginPage  && (
+          <ul className="nav-list-2">
+            <li>
+              <Link to="/registration" className="nav-item">
+                Sign Up
+              </Link>
+            </li>
+            <li>
+              <Link to="/login" className="nav-item">
+                Login
+              </Link>
+            </li>
+        </ul>
+        )}
       </div>
     );
 };
@@ -52,5 +56,9 @@ const Navbar = ({ logOutAction }) => {
 const mapDispatchToProps = dispatch => bindActionCreators({
   logOutAction: logOut
 }, dispatch);
+
+Navbar.propTypes = {
+  logOutAction: PropTypes.func.isRequired
+};
 
 export default connect(null, mapDispatchToProps)(Navbar);

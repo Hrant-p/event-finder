@@ -2,6 +2,7 @@ module.exports = {
   env: {
     browser: true,
     es6: true,
+    jest: true
   },
   extends: [
     'plugin:react/recommended',
@@ -11,7 +12,6 @@ module.exports = {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
   },
-  parser: "babel-eslint",
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -21,9 +21,18 @@ module.exports = {
   },
   plugins: [
     'react',
+    'eslint-plugin-jest'
   ],
-  rules: {
+  "rules": {
+    "max-len": [1, 120, 2, {
+      "ignoreComments": true
+    }],
     "react/jsx-filename-extension": [0],
+    "react/prefer-stateless-function": "warn",
+    "import/prefer-default-export": "off",
     "arrow-parens": "off",
+    "react/jsx-fragments": 0,
+    "react/prop-types": 0,
+    "comma-dangle": "off"
   }
 };

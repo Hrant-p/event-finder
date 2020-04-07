@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import './SignUp.scss';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import {Redirect, useHistory} from 'react-router';
+import { Redirect } from 'react-router';
+import PropTypes from 'prop-types';
+import Immutable from 'immutable';
 import {
   createNewUserRequest,
-  errorState
 } from '../../store/actions/userActionCreator';
 import {
   errorSelector,
@@ -15,7 +16,6 @@ import {
 
 const SignUp = ({
   registerAction,
-  errorAction,
   user,
   error,
   isLoading
@@ -28,7 +28,6 @@ const SignUp = ({
   });
 
   const { login, password, password2 } = formData;
-  const history = useHistory();
 
   const onChange = ({ target: { value, name } }) => {
     setFormData({
@@ -39,13 +38,9 @@ const SignUp = ({
 
   const handleSignUp = e => {
     e.preventDefault();
-    if (password === password2) {
-      registerAction(login, password);
-    } else {
-      errorAction({
-        message: "Passwords doesn't match"
-      })
-    }
+    const { login, password, password2 } = formData;
+
+    registerAction(login, password, password2);
   };
 
   if (user) {
@@ -75,7 +70,8 @@ const SignUp = ({
               placeholder="Password"
               value={password}
               onChange={onChange}
-              minLength={6}
+              minLength="6"
+              maxLength="12"
               required
             />
             <input
@@ -84,7 +80,8 @@ const SignUp = ({
               placeholder="Repeat Password"
               value={password2}
               onChange={onChange}
-              minLength={6}
+              minLength="6"
+              maxLength="12"
               required
             />
             <button
@@ -111,9 +108,18 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
     registerAction: createNewUserRequest,
-    errorAction: errorState
   }, dispatch
 );
+
+SignUp.defaultProps = {
+  user: null
+};
+
+SignUp.propTypes = {
+  registerAction: PropTypes.func.isRequired,
+  user: PropTypes.object,
+  isLoading: PropTypes.bool.isRequired
+};
 
 export default connect(
   mapStateToProps,

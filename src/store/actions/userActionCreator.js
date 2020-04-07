@@ -30,10 +30,10 @@ export function watchForAuth() {
   }
 }
 
-export function createNewUserRequest(login, password) {
+export function createNewUserRequest(login, password, password2) {
   return {
     type: USERS_REDUCER_ACTION_TYPES.REGISTER_NEW_USER,
-    payload: { login, password }
+    payload: { login, password, password2 }
   };
 }
 

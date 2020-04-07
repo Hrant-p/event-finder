@@ -9,6 +9,8 @@ import {
   userSelector
 } from '../../store/selectors/usersSelector';
 import { loginUser } from "../../store/actions/userActionCreator";
+import PropTypes from 'prop-types';
+import Immutable from 'immutable';
 
 class Login extends Component {
   constructor(props) {
@@ -60,6 +62,7 @@ class Login extends Component {
                   placeholder="Login"
                   value={login}
                   onChange={this.onChange}
+                  minLength="6"
                   required
                 />
                 <input
@@ -68,6 +71,8 @@ class Login extends Component {
                   placeholder="Password"
                   value={password}
                   onChange={this.onChange}
+                  maxLength="30"
+                  minLength="6"
                   required
                 />
                 <button
@@ -97,6 +102,16 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => bindActionCreators({
   loginUserAction: loginUser
 }, dispatch);
+
+Login.defaultProps = {
+  user: null
+};
+
+Login.propTypes = {
+  loginUserAction: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  user: PropTypes.object,
+};
 
 export default connect(
   mapStateToProps,
