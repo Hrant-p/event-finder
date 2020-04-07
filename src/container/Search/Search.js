@@ -21,7 +21,7 @@ class Search extends Component {
       this.props.eventActionCreator(name, location);
     } else {
         alert('Search fields are empty, write the search fields!');
-    };
+    }
   };
 
   handleChange = ({ target: { name, value } }) => {

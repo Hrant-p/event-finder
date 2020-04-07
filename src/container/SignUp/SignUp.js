@@ -8,7 +8,7 @@ import { app } from '../../API/firebase';
 import { createNewUserRequest } from '../../store/actions/userActionCreator';
 import {
   isLoadingUserSelector,
-  allUsersSelector,
+  userSelector,
 } from '../../store/selectors/usersSelector';
 
 const SignUp = ({ createNewUserRequest, allUsers, isLoading }) => {
@@ -29,19 +29,12 @@ const SignUp = ({ createNewUserRequest, allUsers, isLoading }) => {
     });
   };
 
-  const handleSignUp = async e => {
+  const handleSignUp = useCallback(e => {
     e.preventDefault();
     const { login, password } = formData;
-    console.log('lp',login, password);
+    const { registerAction } = this.props;
+    registerAction(login, password, history);
 
-    try {
-      await app
-        .auth()
-        .createUserWithEmailAndPassword(login, password);
-      history.push('/dashboard');
-    } catch (error) {
-      console.error(error);
-    }
     // if (allUsers.has(login)) {
     //   setStatusOfToolTip(true);
     //   setTextForToolTip('This userName is already used');
@@ -60,7 +53,7 @@ const SignUp = ({ createNewUserRequest, allUsers, isLoading }) => {
     //   const newUser = allUsers.set(login, fromJS({ login, password }));
     //   createNewUserRequest(newUser, history);
     // }
-  };
+  }, [history]);
 
   return (
     <div className="signup-page">
@@ -69,7 +62,7 @@ const SignUp = ({ createNewUserRequest, allUsers, isLoading }) => {
       )}
       <div className="input-field">
         <div className="forms">
-          <form onSubmit={e => handleSignUp(e)}>
+          <form onSubmit={handleSignUp}>
             <input
               name="login"
               placeholder="Login"
@@ -105,14 +98,12 @@ const SignUp = ({ createNewUserRequest, allUsers, isLoading }) => {
 
 const mapStateToProps = state => ({
   isLoading: isLoadingUserSelector(state),
-  allUsers: allUsersSelector(state),
+  user: userSelector(state),
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(
-  {
-    createNewUserRequest,
-  },
-  dispatch,
+  {registerAction: createNewUserRequest},
+  dispatch
 );
 
 export default connect(

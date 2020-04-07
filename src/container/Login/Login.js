@@ -2,10 +2,14 @@ import React, { Component, Fragment } from 'react';
 import './Login.scss';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router';
-import { isLoadingUserSelector, allUsersSelector } from '../../store/selectors/usersSelector';
-import { getAllUsersRequest } from '../../store/actions/userActionCreator';
-import { app } from '../../API/firebase';
+import { Redirect } from 'react-router-dom';
+import {
+  isAuthSelector,
+  isLoadingUserSelector,
+  userSelector
+} from '../../store/selectors/usersSelector';
+import { loginUser } from "../../store/actions/userActionCreator";
+import {app} from "../../API/firebase";
 
 class Login extends Component {
   constructor(props) {
@@ -25,11 +29,11 @@ class Login extends Component {
       });
     };
 
-    handleLogin = async e => {
+    handleLogin = e => {
       e.preventDefault();
       const { login, password } = this.state;
-      const { history } = this.props;
-
+      const { loginUserAction } = this.props;
+      loginUserAction(login, password);
 
     //   } else {
     //     this.setState({
@@ -46,15 +50,15 @@ class Login extends Component {
     //   }
     };
 
-    componentDidMount() {
-      const { history } = this.props;
-      if (sessionStorage.id && sessionStorage.id !== '') {
-        history.push('/dashboard');
-      }
-    }
+    // componentDidMount() {
+      // const { history } = this.props;
+      // if (sessionStorage.id && sessionStorage.id !== '') {
+      //   history.push('/dashboard');
+      // }
+    // }
 
     render() {
-      const { isLoading } = this.props;
+      const { isLoading, user, isAuth } = this.props;
       const {
         login,
         password,
@@ -62,13 +66,14 @@ class Login extends Component {
         textForToolTip,
       } = this.state;
 
-      // if (currentUser) {
-      //   return <Redirect to="/dashboard" />;
-      // }
+      if (user) {
+        return <Redirect to="/dashboard" />;
+      }
 
       return (
-        <>
+        <Fragment>
           <h2 style={{ textAlign: 'center', color: '#44469' }}>Events Search Application</h2>
+          <button onClick={() => app.auth().signOut()}>signout</button>
           <div className="signup-page">
             {isLoading && (
             <div
@@ -108,17 +113,22 @@ class Login extends Component {
             <div className="toolTip">{textForToolTip}</div>
             )}
           </div>
-        </>
+        </Fragment>
       );
     }
 }
 
 const mapStateToProps = state => ({
   isLoading: isLoadingUserSelector(state),
+  user: userSelector(state),
+  isAuth: isAuthSelector(state)
 });
 
+const mapDispatchToProps = dispatch =>  bindActionCreators({
+  loginUserAction: loginUser
+}, dispatch);
 
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(Login);

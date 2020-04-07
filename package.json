@@ -8,6 +8,7 @@
     "firebase": "^7.13.2",
     "google-maps-react": "^2.0.2",
     "immutable": "^4.0.0-rc.12",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",

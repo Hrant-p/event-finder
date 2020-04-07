@@ -2,11 +2,13 @@ import React  from 'react';
 import {Link, useLocation} from 'react-router-dom';
 
 import './Navbar.scss';
+import {app} from "../../API/firebase";
 
 
 const Navbar = () => {
   const removeId = () => {
-    sessionStorage.setItem("id", "")
+    app.auth().signOut();
+    sessionStorage.setItem("user", "")
   };
 
   const { pathname } = useLocation();
