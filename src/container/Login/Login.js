@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import {
   errorSelector,
-  isAuthSelector,
   isLoadingUserSelector,
   userSelector
 } from '../../store/selectors/usersSelector';
@@ -18,82 +17,75 @@ class Login extends Component {
     this.state = {
       login: '',
       password: '',
-      statusOfToolTip: false,
-      textForToolTip: '',
     };
   }
 
-    onChange = ({ currentTarget: { value, name } }) => {
-      this.setState({
-        [name]: value,
-      });
-    };
+  onChange = ({ currentTarget: { value, name } }) => {
+    this.setState({
+      [name]: value,
+    });
+  };
 
-    handleLogin = e => {
-      e.preventDefault();
-      const { login, password } = this.state;
-      const { loginUserAction } = this.props;
-      loginUserAction(login, password);
-    };
+  handleLogin = e => {
+    e.preventDefault();
+    const { login, password } = this.state;
+    const { loginUserAction } = this.props;
+    loginUserAction(login, password);
+  };
 
-    render() {
-      const { isLoading, user } = this.props;
-      const {
-        login,
-        password,
-        statusOfToolTip,
-        textForToolTip,
-      } = this.state;
+  render() {
+    const { isLoading, user, error } = this.props;
+    const { login, password } = this.state;
 
-      if (user && localStorage.getItem('id')) {
-        return <Redirect to="/dashboard" />;
-      }
-
-      return (
-        <Fragment>
-          <h2 style={{ textAlign: 'center', color: '#44469' }}>Events Search Application</h2>
-          <div className="signup-page">
-            {isLoading && (
-            <div
-              className="lds-hourglass"
-              style={{ marginLeft: 0 }}
-            />
-            )}
-            <div className="input-field">
-              <div className="forms">
-                <form onSubmit={this.handleLogin}>
-                  <input
-                    type="email"
-                    name="login"
-                    placeholder="Login"
-                    value={login}
-                    required
-                    onChange={this.onChange}
-                  />
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={this.onChange}
-                    required
-                  />
-                  <button
-                    type="submit"
-                    onClick={this.handleLogin}
-                  >
-                        Login
-                  </button>
-                </form>
-              </div>
-            </div>
-            {statusOfToolTip && (
-            <div className="toolTip">{textForToolTip}</div>
-            )}
-          </div>
-        </Fragment>
-      );
+    if (user && localStorage.getItem('id')) {
+      return <Redirect to="/dashboard" />;
     }
+
+    return (
+      <Fragment>
+        <h2 style={{ textAlign: 'center', color: '#44469' }}>Events Search Application</h2>
+        <div className="signup-page">
+          {isLoading && (
+          <div
+            className="lds-hourglass"
+            style={{ marginLeft: 0 }}
+          />
+          )}
+          <div className="input-field">
+            <div className="forms">
+              <form onSubmit={this.handleLogin}>
+                <input
+                  type="email"
+                  name="login"
+                  placeholder="Login"
+                  value={login}
+                  onChange={this.onChange}
+                  required
+                />
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={this.onChange}
+                  required
+                />
+                <button
+                  type="submit"
+                  onClick={this.handleLogin}
+                >
+                      Login
+                </button>
+              </form>
+            </div>
+          </div>
+          {error && (
+          <div className="toolTip">{error.message}</div>
+          )}
+        </div>
+      </Fragment>
+    );
+  }
 }
 
 const mapStateToProps = state => ({
@@ -102,7 +94,7 @@ const mapStateToProps = state => ({
   error: errorSelector(state),
 });
 
-const mapDispatchToProps = dispatch =>  bindActionCreators({
+const mapDispatchToProps = dispatch => bindActionCreators({
   loginUserAction: loginUser
 }, dispatch);
 

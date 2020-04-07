@@ -1,4 +1,5 @@
-import { all, call, put, takeLatest, take } from "redux-saga/effects";
+import { all, call, put, takeLatest, take, cancelled, delay } from "redux-saga/effects";
+import {eventChannel} from 'redux-saga';
 
 import {
   USERS_REDUCER_ACTION_TYPES,
@@ -6,12 +7,11 @@ import {
 
 import {
   changeLoadingStateUsers,
+  errorState,
   setCurrentUser,
 } from "../store/actions/userActionCreator";
 
 import {app} from "../API/firebase";
-import {eventChannel} from 'redux-saga';
-import {cancelled} from "@redux-saga/core/effects";
 
 function getAuthChannel() {
   return eventChannel(emit => {
@@ -20,14 +20,14 @@ function getAuthChannel() {
 }
 
 function* watchForFirebaseAuth() {
-    const authChannel = yield call(getAuthChannel);
-    while (true) {
-      const { user } = yield take(authChannel);
-      yield put(setCurrentUser(user));
-      if (yield cancelled()) {
-        authChannel.close()
-      }
+  const authChannel = yield call(getAuthChannel);
+  while (true) {
+    const { user } = yield take(authChannel);
+    yield put(setCurrentUser(user));
+    if (yield cancelled()) {
+      authChannel.close()
     }
+  }
 }
 
 function* logOutUser() {
@@ -38,7 +38,12 @@ function* logOutUser() {
     yield put(changeLoadingStateUsers(false));
 
   } catch (e) {
+    yield put(changeLoadingStateUsers(false));
+    yield put(errorState(e));
     console.error(e);
+  } finally {
+    yield delay(4000);
+    yield put(errorState(null));
   }
 }
 
@@ -53,7 +58,12 @@ function* loginCurrentUser({ payload: { login, password }}) {
 
   } catch (error) {
     yield put(changeLoadingStateUsers(false));
+    console.log(error);
+    yield put(errorState(error));
     console.error(error);
+  } finally {
+    yield delay(4000);
+    yield put(errorState(null));
   }
 }
 
@@ -69,7 +79,11 @@ function* registerNewUser({ payload: { login, password } }) {
 
   } catch (error) {
     yield put(changeLoadingStateUsers(false));
-    console.error(error);
+    yield put(errorState(e));
+    console.error(e);
+  } finally {
+    yield delay(4000);
+    yield put(errorState(null));
   }
 }
 

@@ -3,20 +3,30 @@ import './SignUp.scss';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {Redirect, useHistory} from 'react-router';
-import { createNewUserRequest } from '../../store/actions/userActionCreator';
 import {
+  createNewUserRequest,
+  errorState
+} from '../../store/actions/userActionCreator';
+import {
+  errorSelector,
   isLoadingUserSelector,
   userSelector,
 } from '../../store/selectors/usersSelector';
 
-const SignUp = ({ registerAction, user, isLoading }) => {
-  const [statusOfToolTip, setStatusOfToolTip] = useState(false);
-  const [textForToolTip, setTextForToolTip] = useState('');
+const SignUp = ({
+  registerAction,
+  errorAction,
+  user,
+  error,
+  isLoading
+}) => {
+
   const [formData, setFormData] = useState({
     login: '',
     password: '',
     password2: '',
   });
+
   const { login, password, password2 } = formData;
   const history = useHistory();
 
@@ -29,29 +39,13 @@ const SignUp = ({ registerAction, user, isLoading }) => {
 
   const handleSignUp = e => {
     e.preventDefault();
-    // const { login, password, password2 } = formData;
     if (password === password2) {
       registerAction(login, password);
     } else {
-      setStatusOfToolTip(true);
-      setTextForToolTip("Passwords doesn't match");
+      errorAction({
+        message: "Passwords doesn't match"
+      })
     }
-
-    // if (allUsers.has(login)) {
-    //   setStatusOfToolTip(true);
-    //   setTextForToolTip('This userName is already used');
-    //   setTimeout(() => {
-    //     setStatusOfToolTip(false);
-    //     setTextForToolTip('');
-    //   }, 3000);
-    // } else if (login.length < 1 || password.length < 1) {
-    //   setStatusOfToolTip(true);
-    //   setTextForToolTip('Please type correct mail & password');
-    //   setTimeout(() => {
-    //     setStatusOfToolTip(false);
-    //     setTextForToolTip('');
-    //   }, 3000);
-    // }
   };
 
   if (user) {
@@ -102,21 +96,23 @@ const SignUp = ({ registerAction, user, isLoading }) => {
           </form>
         </div>
       </div>
-      {/* {statusOfToolTip && ( */}
-      {/* <div className="toolTip">{textForToolTip}</div> */}
-      {/* )} */}
+       {error && (
+       <div className="toolTip">{error.message}</div>
+       )}
     </div>
   );
 };
 
 const mapStateToProps = state => ({
-  isLoading: isLoadingUserSelector(state),
   user: userSelector(state),
+  isLoading: isLoadingUserSelector(state),
+  error: errorSelector(state)
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-      registerAction: createNewUserRequest
-    }, dispatch
+    registerAction: createNewUserRequest,
+    errorAction: errorState
+  }, dispatch
 );
 
 export default connect(
