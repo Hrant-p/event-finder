@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import {
+  errorSelector,
   isAuthSelector,
   isLoadingUserSelector,
   userSelector
@@ -33,31 +34,10 @@ class Login extends Component {
       const { login, password } = this.state;
       const { loginUserAction } = this.props;
       loginUserAction(login, password);
-
-    //   } else {
-    //     this.setState({
-    //       statusOfToolTip: true,
-    //       textForToolTip: 'Login or Password is incorrect',
-    //     });
-    //
-    //     setTimeout(() => {
-    //       this.setState({
-    //         statusOfToolTip: false,
-    //         textForToolTip: '',
-    //       });
-    //     }, 3000);
-    //   }
     };
 
-    // componentDidMount() {
-      // const { history } = this.props;
-      // if (sessionStorage.id && sessionStorage.id !== '') {
-      //   history.push('/dashboard');
-      // }
-    // }
-
     render() {
-      const { isLoading, user, isAuth } = this.props;
+      const { isLoading, user } = this.props;
       const {
         login,
         password,
@@ -65,7 +45,7 @@ class Login extends Component {
         textForToolTip,
       } = this.state;
 
-      if (user) {
+      if (user && localStorage.getItem('id')) {
         return <Redirect to="/dashboard" />;
       }
 
@@ -95,8 +75,8 @@ class Login extends Component {
                     name="password"
                     placeholder="Password"
                     value={password}
-                    required
                     onChange={this.onChange}
+                    required
                   />
                   <button
                     type="submit"
@@ -119,7 +99,7 @@ class Login extends Component {
 const mapStateToProps = state => ({
   isLoading: isLoadingUserSelector(state),
   user: userSelector(state),
-  isAuth: isAuthSelector(state)
+  error: errorSelector(state),
 });
 
 const mapDispatchToProps = dispatch =>  bindActionCreators({

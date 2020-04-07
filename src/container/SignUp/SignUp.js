@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import './SignUp.scss';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -10,13 +10,14 @@ import {
 } from '../../store/selectors/usersSelector';
 
 const SignUp = ({ registerAction, user, isLoading }) => {
-  // const [statusOfToolTip, setStatusOfToolTip] = useState(false);
-  // const [textForToolTip, setTextForToolTip] = useState('');
+  const [statusOfToolTip, setStatusOfToolTip] = useState(false);
+  const [textForToolTip, setTextForToolTip] = useState('');
   const [formData, setFormData] = useState({
     login: '',
     password: '',
+    password2: '',
   });
-  const { login, password } = formData;
+  const { login, password, password2 } = formData;
   const history = useHistory();
 
   const onChange = ({ target: { value, name } }) => {
@@ -28,8 +29,13 @@ const SignUp = ({ registerAction, user, isLoading }) => {
 
   const handleSignUp = e => {
     e.preventDefault();
-    const { login, password } = formData;
-    registerAction(login, password);
+    // const { login, password, password2 } = formData;
+    if (password === password2) {
+      registerAction(login, password);
+    } else {
+      setStatusOfToolTip(true);
+      setTextForToolTip("Passwords doesn't match");
+    }
 
     // if (allUsers.has(login)) {
     //   setStatusOfToolTip(true);
@@ -45,9 +51,6 @@ const SignUp = ({ registerAction, user, isLoading }) => {
     //     setStatusOfToolTip(false);
     //     setTextForToolTip('');
     //   }, 3000);
-    // } else {
-    //   const newUser = allUsers.set(login, fromJS({ login, password }));
-    //   createNewUserRequest(newUser, history);
     // }
   };
 
@@ -68,7 +71,7 @@ const SignUp = ({ registerAction, user, isLoading }) => {
               name="login"
               placeholder="Login"
               value={login}
-              onChange={e => onChange(e)}
+              onChange={onChange}
               minLength={6}
               required
             />
@@ -77,7 +80,16 @@ const SignUp = ({ registerAction, user, isLoading }) => {
               name="password"
               placeholder="Password"
               value={password}
-              onChange={e => onChange(e)}
+              onChange={onChange}
+              minLength={6}
+              required
+            />
+            <input
+              type="password"
+              name="password2"
+              placeholder="Repeat Password"
+              value={password2}
+              onChange={onChange}
               minLength={6}
               required
             />

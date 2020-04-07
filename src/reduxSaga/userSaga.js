@@ -5,7 +5,6 @@ import {
 } from "../store/actions/types";
 
 import {
-  changeIsAuthState,
   changeLoadingStateUsers,
   setCurrentUser,
 } from "../store/actions/userActionCreator";
@@ -33,9 +32,11 @@ function* watchForFirebaseAuth() {
 
 function* logOutUser() {
   try {
-    const auth = yield app.auth();
-    yield auth.signOut();
+    yield put(changeLoadingStateUsers(true));
+    yield app.auth().signOut();
     localStorage.removeItem('id');
+    yield put(changeLoadingStateUsers(false));
+
   } catch (e) {
     console.error(e);
   }
@@ -46,13 +47,11 @@ function* loginCurrentUser({ payload: { login, password }}) {
     yield put(changeLoadingStateUsers(true));
     const auth = yield app.auth();
     yield auth.signInWithEmailAndPassword(login.trim(), password.trim());
-    yield put(changeIsAuthState(true));
     const token = yield auth.currentUser.getIdToken();
     localStorage.setItem('id', token);
     yield put(changeLoadingStateUsers(false));
 
   } catch (error) {
-    yield put(changeIsAuthState(false));
     yield put(changeLoadingStateUsers(false));
     console.error(error);
   }
@@ -66,11 +65,9 @@ function* registerNewUser({ payload: { login, password } }) {
     yield auth.createUserWithEmailAndPassword(login.trim(), password.trim());
     const token = yield auth.currentUser.getIdToken();
     localStorage.setItem('id', token);
-    yield put(changeIsAuthState(true));
     yield put(changeLoadingStateUsers(false));
 
   } catch (error) {
-    yield put(changeIsAuthState(false));
     yield put(changeLoadingStateUsers(false));
     console.error(error);
   }

@@ -5,7 +5,6 @@ import {isAuthSelector, userSelector} from "../store/selectors/usersSelector";
 import { PropTypes } from 'prop-types'
 
 const PrivateRoute = ({component: RouteComponent, user, ...rest }) => {
-
   return (
     <Route
       {...rest}
@@ -18,12 +17,15 @@ const PrivateRoute = ({component: RouteComponent, user, ...rest }) => {
   );
 };
 
+PrivateRoute.defaultProps = {
+    user: null
+};
+
 PrivateRoute.propTypes = {
-    isAuth: PropTypes.bool.isRequired,
+    user: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
-    isAuth: isAuthSelector(state),
     user: userSelector(state)
 });
 

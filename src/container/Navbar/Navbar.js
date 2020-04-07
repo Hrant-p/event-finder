@@ -2,7 +2,6 @@ import React  from 'react';
 import {Link, useLocation} from 'react-router-dom';
 
 import './Navbar.scss';
-import {app} from "../../API/firebase";
 import {logOut} from "../../store/actions/userActionCreator";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";

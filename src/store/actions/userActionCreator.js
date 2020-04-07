@@ -30,13 +30,6 @@ export function watchForAuth() {
   }
 }
 
-export function changeIsAuthState(isAuth) {
-  return {
-    type: USERS_REDUCER_ACTION_TYPES.IS_AUTH_STATE,
-    payload: { isAuth }
-  }
-}
-
 export function createNewUserRequest(login, password) {
   return {
     type: USERS_REDUCER_ACTION_TYPES.REGISTER_NEW_USER,
@@ -48,5 +41,12 @@ export function changeLoadingStateUsers(isLoading) {
   return {
     type: USERS_REDUCER_ACTION_TYPES.LOADING_STATE,
     payload: { isLoading }
+  };
+}
+
+export function errorState(error) {
+  return {
+    type: USERS_REDUCER_ACTION_TYPES.ERROR_STATE,
+    payload: { error }
   };
 }
