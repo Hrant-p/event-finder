@@ -1,24 +1,24 @@
-import { all, call, put, takeLatest, take, cancelled, delay } from "redux-saga/effects";
+import {
+  all, call, put, takeLatest, take, cancelled, delay
+} from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';
 
 import {
   USERS_REDUCER_ACTION_TYPES,
-} from "../store/actions/types";
+} from '../store/actions/types';
 
 import {
   changeLoadingStateUsers,
   errorState,
   setCurrentUser,
-} from "../store/actions/userActionCreator";
+} from '../store/actions/userActionCreator';
 
-import { app } from "../API/firebase";
+import { app } from '../API/firebase';
 
 function getAuthChannel() {
-  return eventChannel(emit => {
-    return app.auth().onAuthStateChanged(user => emit({
-      user
-    }));
-  });
+  return eventChannel(emit => app.auth().onAuthStateChanged(user => emit({
+    user
+  })));
 }
 
 function* watchForFirebaseAuth() {
@@ -27,7 +27,7 @@ function* watchForFirebaseAuth() {
     const { user } = yield take(authChannel);
     yield put(setCurrentUser(user));
     if (yield cancelled()) {
-      authChannel.close()
+      authChannel.close();
     }
   }
 }
@@ -38,7 +38,6 @@ function* logOutUser() {
     yield app.auth().signOut();
     localStorage.removeItem('id');
     yield put(changeLoadingStateUsers(false));
-
   } catch (e) {
     yield put(changeLoadingStateUsers(false));
     yield put(errorState(e));
@@ -48,7 +47,7 @@ function* logOutUser() {
   }
 }
 
-function* loginCurrentUser({ payload: { login, password }}) {
+function* loginCurrentUser({ payload: { login, password } }) {
   try {
     yield put(changeLoadingStateUsers(true));
     const auth = yield app.auth();
@@ -56,7 +55,6 @@ function* loginCurrentUser({ payload: { login, password }}) {
     const token = yield auth.currentUser.getIdToken();
     localStorage.setItem('id', token);
     yield put(changeLoadingStateUsers(false));
-
   } catch (error) {
     yield put(changeLoadingStateUsers(false));
     yield put(errorState(error));
@@ -77,7 +75,6 @@ function* registerNewUser({ payload: { login, password, password2 } }) {
     const token = yield auth.currentUser.getIdToken();
     localStorage.setItem('id', token);
     yield put(changeLoadingStateUsers(false));
-
   } catch (error) {
     yield put(changeLoadingStateUsers(false));
     yield put(errorState(error));

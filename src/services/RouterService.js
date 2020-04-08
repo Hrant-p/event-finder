@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, { Fragment } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Footer from '../components/Footer/Footer';
 import SignUp from '../container/SignUp/SignUp';
@@ -8,9 +8,8 @@ import Navbar from '../container/Navbar/Navbar';
 import PrivateRoute from './PrivateRoute';
 
 function RouterService() {
-
   return (
-    <Fragment>
+    <div className="container">
       <Navbar />
       <Switch>
         <Route path="/registration" component={SignUp} exact />
@@ -18,7 +17,7 @@ function RouterService() {
         <PrivateRoute path="/dashboard" component={Dashboard} exact />
       </Switch>
       <Footer />
-    </Fragment>
+    </div>
   );
 }
 

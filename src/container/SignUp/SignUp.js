@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
 import {
   createNewUserRequest,
 } from '../../store/actions/userActionCreator';
@@ -20,7 +19,6 @@ const SignUp = ({
   error,
   isLoading
 }) => {
-
   const [formData, setFormData] = useState({
     login: '',
     password: '',
@@ -38,13 +36,11 @@ const SignUp = ({
 
   const handleSignUp = e => {
     e.preventDefault();
-    const { login, password, password2 } = formData;
-
     registerAction(login, password, password2);
   };
 
   if (user) {
-    return <Redirect to="/dashboard" />
+    return <Redirect to="/dashboard" />;
   }
 
   return (
@@ -54,7 +50,10 @@ const SignUp = ({
       )}
       <div className="input-field">
         <div className="forms">
-          <form onSubmit={handleSignUp}>
+          <form
+            onSubmit={handleSignUp}
+            className="body"
+          >
             <input
               type="email"
               name="login"
@@ -93,9 +92,9 @@ const SignUp = ({
           </form>
         </div>
       </div>
-       {error && (
-       <div className="toolTip">{error.message}</div>
-       )}
+      {error && (
+      <div className="toolTip">{error.message}</div>
+      )}
     </div>
   );
 };
@@ -107,9 +106,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    registerAction: createNewUserRequest,
-  }, dispatch
-);
+  registerAction: createNewUserRequest,
+}, dispatch);
 
 SignUp.defaultProps = {
   user: null

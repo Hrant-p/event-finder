@@ -19,9 +19,9 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
+  parser: "babel-eslint",
   plugins: [
     'react',
-    'eslint-plugin-jest'
   ],
   "rules": {
     "max-len": [1, 120, 2, {

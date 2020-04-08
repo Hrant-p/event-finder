@@ -13,7 +13,6 @@ import { SEARCH_EVENTS_ACTION_TYPES } from '../store/actions/types';
 function* getSearchEventsResult({ payload: { name, location } }) {
   try {
     yield put(changeLoadingStateEvents(true));
-
     const { data } = yield call(
       request,
       'GET',
@@ -26,7 +25,7 @@ function* getSearchEventsResult({ payload: { name, location } }) {
         }),
     );
 
-    const eventdata = yield data.events.map(event => ({
+    const eventData = yield data.events.map(event => ({
       name: event.name.text,
       id: event.id,
       location: {
@@ -36,7 +35,7 @@ function* getSearchEventsResult({ payload: { name, location } }) {
     }));
 
 
-    yield put(searchEventsSucceed(eventdata));
+    yield put(searchEventsSucceed(eventData));
     yield put(changeLoadingStateEvents(false));
   } catch (e) {
     console.log(e);

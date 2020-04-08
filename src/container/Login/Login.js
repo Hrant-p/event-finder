@@ -3,14 +3,13 @@ import './Login.scss';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import {
   errorSelector,
   isLoadingUserSelector,
   userSelector
 } from '../../store/selectors/usersSelector';
-import { loginUser } from "../../store/actions/userActionCreator";
-import PropTypes from 'prop-types';
-import Immutable from 'immutable';
+import { loginUser } from '../../store/actions/userActionCreator';
 
 class Login extends Component {
   constructor(props) {
@@ -55,7 +54,10 @@ class Login extends Component {
           )}
           <div className="input-field">
             <div className="forms">
-              <form onSubmit={this.handleLogin}>
+              <form
+                onSubmit={this.handleLogin}
+                className="body"
+              >
                 <input
                   type="email"
                   name="login"
@@ -79,7 +81,7 @@ class Login extends Component {
                   type="submit"
                   onClick={this.handleLogin}
                 >
-                      Login
+                  Login
                 </button>
               </form>
             </div>

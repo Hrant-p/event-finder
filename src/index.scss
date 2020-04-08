@@ -5,6 +5,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+div.container {
+  height: 100vh;
   background-image: url(./img/background.jpg) !important;
   background-attachment: fixed;
   background-repeat: no-repeat;
