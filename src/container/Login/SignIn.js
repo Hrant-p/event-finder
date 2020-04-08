@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import './Login.scss';
+import './SignIn.scss';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   errorSelector,
@@ -10,8 +10,9 @@ import {
   userSelector
 } from '../../store/selectors/usersSelector';
 import { loginUser } from '../../store/actions/userActionCreator';
+import {Title} from "../../components/Title/Title";
 
-class Login extends Component {
+class SignIn extends Component {
   constructor(props) {
     super(props);
 
@@ -44,15 +45,12 @@ class Login extends Component {
 
     return (
       <Fragment>
-        <h2 style={{ textAlign: 'center', color: '#44469' }}>Events Search Application</h2>
-        <div className="signup-page">
+        <Title />
+        <div className="sign-page">
           {isLoading && (
-          <div
-            className="lds-hourglass"
-            style={{ marginLeft: 0 }}
-          />
+          <div className="lds-hourglass" />
           )}
-          <div className="input-field">
+          <div className="form-area">
             <div className="forms">
               <form
                 onSubmit={this.handleLogin}
@@ -61,10 +59,11 @@ class Login extends Component {
                 <input
                   type="email"
                   name="login"
-                  placeholder="Login"
+                  placeholder="Email"
                   value={login}
                   onChange={this.onChange}
                   minLength="6"
+                  disabled={isLoading}
                   required
                 />
                 <input
@@ -73,16 +72,22 @@ class Login extends Component {
                   placeholder="Password"
                   value={password}
                   onChange={this.onChange}
+                  disabled={isLoading}
                   maxLength="30"
                   minLength="6"
                   required
                 />
                 <button
                   type="submit"
+                  disabled={isLoading}
                   onClick={this.handleLogin}
                 >
-                  Login
+                  Sign In
                 </button>
+                <p className="form-bottom">
+                  {"Don't have an account? "}
+                  <Link to="/registration">Sign Up</Link>
+                </p>
               </form>
             </div>
           </div>
@@ -105,11 +110,11 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   loginUserAction: loginUser
 }, dispatch);
 
-Login.defaultProps = {
+SignIn.defaultProps = {
   user: null
 };
 
-Login.propTypes = {
+SignIn.propTypes = {
   loginUserAction: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   user: PropTypes.object,
@@ -118,4 +123,4 @@ Login.propTypes = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Login);
+)(SignIn);

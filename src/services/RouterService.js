@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Footer from '../components/Footer/Footer';
 import SignUp from '../container/SignUp/SignUp';
-import Login from '../container/Login/Login';
+import Login from '../container/Login/SignIn';
 import Dashboard from '../container/Dashboard/Dashboard';
 import Navbar from '../container/Navbar/Navbar';
 import PrivateRoute from './PrivateRoute';
