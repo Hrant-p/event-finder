@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
@@ -10,16 +11,23 @@ module.exports = (env = {}) => {
   const isDev = mode === 'development';
 
   const getStyleLoaders = () => [
-    isProd ? MiniCssExtractPlugin.loader : 'style-loader',
+    isProd ? {
+      loader: MiniCssExtractPlugin.loader,
+      options: {
+        publicPath: (resourcePath, context) => {
+          return path.relative(path.dirname(resourcePath), context) + '/';
+        },
+      },
+    } : 'style-loader',
     'css-loader',
-    'sass-loader',
   ];
 
   const getPlugins = () => {
     const plugins = [
       new HtmlWebpackPlugin({
-        title: 'App',
+        title: 'Event Finder App',
         template: 'public/index.html',
+        favicon: '/src/img/favicon.ico',
         hash: true,
       }),
     ];
@@ -27,7 +35,7 @@ module.exports = (env = {}) => {
     if (isProd) {
       plugins.push(
         new CleanWebpackPlugin(),
-        new MiniExtractPlugin({
+        new MiniCssExtractPlugin({
           filename: 'css/main-[hash:8].css',
         }),
       );
