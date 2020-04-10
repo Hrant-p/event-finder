@@ -27,7 +27,7 @@ module.exports = (env = {}) => {
       new HtmlWebpackPlugin({
         title: 'Event Finder App',
         template: 'public/index.html',
-        favicon: '/src/img/favicon.ico',
+        favicon: 'public/favicon.ico',
         hash: true,
       }),
     ];
